@@ -1,12 +1,12 @@
 /*
-  Mimic.js - adds custom scratch block to control the Mimic robot arm.
+  simplearm.js - adds custom scratch block to control the SimpleArm.
   Created by Zaron Thompson, June 28, 2017.
 */
 
 (function (ext) {
 
 	_self = ext;
-	_baseUrl = "http://localhost:8080/mimic/api/";
+	_baseUrl = "http://localhost:8080/simplearm/api/";
 	_enableButtonPressedEvent = false;
 	_isButtonPressed = false;
 	_enableKnobTurnedEvent = false;
@@ -85,7 +85,7 @@
 	
 	ext.failedConnection = function() {
 		register();
-		return "Verify that the scratch module within the Mimic software is activated and running";
+		return "Verify that the scratch module within the SimpleArm software is activated and running";
 	};
 
     ext._shutdown = function () {
@@ -225,7 +225,7 @@
 	
 	register = function(){
 		//unregister old
-		ScratchExtensions.unregister('Mimic robot arm');
+		ScratchExtensions.unregister('simplearm');
 		
 		//register new
 		send("GetRecordings").then(function(data){
@@ -233,11 +233,11 @@
 			if (data != null)
 				data.push('<refresh>')
 			descriptor.menus.recordings = data;
-			ScratchExtensions.register('Mimic robot arm', descriptor, ext);
+			ScratchExtensions.register('simplearm', descriptor, ext);
 			listenForEvents();
 		}, function(){
 			//failed
-			ScratchExtensions.register('Mimic robot arm', {blocks: [['r', 'failed to connect - refresh', 'failedConnection']]}, ext);
+			ScratchExtensions.register('simplearm', {blocks: [['r', 'failed to connect - refresh', 'failedConnection']]}, ext);
 		});
 	};
 	register();
